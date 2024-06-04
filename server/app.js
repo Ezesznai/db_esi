@@ -1,7 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express()
 const PORT = 8000
+
+app.use(cors({
+    origin: 'https://db-esi.vercel.app/'
+  }));
 
 app.get('/', (req, res) => {
   res.send('Hello World')
