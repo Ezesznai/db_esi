@@ -1,0 +1,25 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "",
+  "main": "nodeapp.js",
+  "scripts": {
+    "start": "node nodeapp.js",
+    "build": "react-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dantelern/si_a_esi.git"
+  },
+  "author": "dantelern",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dantelern/si_a_esi/issues"
+  },
+  "homepage": "https://github.com/dantelern/si_a_esi#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
