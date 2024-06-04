@@ -5,7 +5,7 @@ const app = express()
 const PORT = 8000
 
 app.use(cors({
-    origin: 'https://db-esi.vercel.app/'
+    origin: 'https://siaesi.vercel.app/'
   }));
 
 app.get('/', (req, res) => {
