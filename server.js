@@ -2,9 +2,17 @@ const express = require("express")
 
 const app = express()
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
+
+
 app.listen(3000)
 
 console.log("server on port ${3000}")
+
+module.exports = app;
+
+
 
 const cards = [
   { id: 1, img: 'C:\Users\47653943\Desktop\backend\memotest\1' },
