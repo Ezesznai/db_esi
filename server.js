@@ -2,16 +2,11 @@ const express = require("express")
 
 const app = express()
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
-
-
-
-app.listen(3000)
+app.use(cors({
+  origin: "https://db-esi.vercel.app/"
+}));
 
 console.log("server on port ${3000}")
-
-module.exports = app;
-
 
 
 const cards = [
@@ -49,8 +44,8 @@ const cards = [
   */
 ];
 
-
 app.get('/cards', (req, res) => {
   res.json(cards);
 });
 
+app.listen(3000)
