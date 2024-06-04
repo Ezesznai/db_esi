@@ -3,7 +3,7 @@ const express = require("express")
 const app = express()
 
 app.use(cors({
-  origin: "https://db-esi.vercel.app/"
+  origin: 'https://db-esi.vercel.app/'
 }));
 
 console.log("server on port ${3000}")
