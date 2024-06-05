@@ -44,7 +44,7 @@ const cards = [
   */
 ];
 
-app.get('/cards', (req, res) => {
+app.get('/memotest', (req, res) => {
   res.json(cards);
 });
 
