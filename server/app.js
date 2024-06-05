@@ -58,7 +58,7 @@ const cards = [
   */
 ];
 
-app.get('/cards', (req, res) => {
+app.get('/', (req, res) => {
   res.json(cards);
 });
 
