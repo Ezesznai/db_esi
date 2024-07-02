@@ -34,7 +34,7 @@ async function saveCards() {
 }
 
 // Ruta para obtener los datos
-app.get('/memotest', async (req, res) => {
+app.get('/', async (req, res) => {
   const allCards = await prisma.card.findMany();
   res.json(allCards);
 });
