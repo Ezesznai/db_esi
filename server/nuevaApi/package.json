@@ -5,7 +5,8 @@
   "main": "nodeapp.js",
   "scripts": {
     "start": "node nodeapp.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx prisma generate"
   },
   "repository": {
     "type": "git",
