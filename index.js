@@ -4,7 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const app = express();
 const prisma = new PrismaClient();
-
+const port = process.env.PORT || 3000;
 app.use(cors({
   origin: 'https://db-esi.vercel.app'
 }));
@@ -39,7 +39,7 @@ app.get('/memotest', async (req, res) => {
   res.json(allCards);
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`Server running on port 3000`);
   saveCards();
 });
