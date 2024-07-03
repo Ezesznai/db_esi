@@ -53,14 +53,14 @@ const express = require('express'); // Suponiendo que uses Express para tu servi
 const apiRoutes = require("./api/index.js")
 const app = express();
 app.use(express.json());
-app.use("/api", apiRoutes)
+const port = process.env.PORT || 3000;
 /*
+app.use("/api", apiRoutes)
 app.get("/", (req, res)=> {
     res.json({message: "HOLISS"})
 })
 
 // Escuchar en el puerto
-const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto ${port}`);
 });
