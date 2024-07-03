@@ -8,6 +8,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
@@ -29,8 +35,16 @@ model Card {
   img String
 }
 
-datasource db {
-  provider = "postgresql" // sabor de sql
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+// Modelo para las palabras de la sopa de letras general
+model Word {
+  id        Int      @id @default(autoincrement())
+  word      String   @unique
+  createdAt DateTime @default(now())
+}
+
+// Modelo para palabras específicas de una sopa de letras
+model PuzzleWord {
+  id        Int      @id @default(autoincrement())
+  respeto String
+  amistad String
 }
