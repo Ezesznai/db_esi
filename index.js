@@ -54,8 +54,8 @@ const apiRoutes = require("./api/index.js")
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
-/*
 app.use("/api", apiRoutes)
+/*
 app.get("/", (req, res)=> {
     res.json({message: "HOLISS"})
 })
