@@ -1,52 +1,3 @@
-/*
-const express = require("express");
-const cors = require("cors");
-const { PrismaClient } = require('@prisma/client');
-
-const app = express();
-const prisma = new PrismaClient();
-const port = process.env.PORT || 3000;
-app.use(cors({
-  origin: 'https://db-esi.vercel.app'
-}));
-
-console.log(`server on port ${3000}`);
-
-// Datos iniciales
-const cards = [
-  { id: 1, img: 'C:/Users/47653943/Desktop/backend/memotest/1' },
-  { id: 2, img: 'C:/Users/47653943/Desktop/backend/memotest/2' },
-  { id: 3, img: 'C:/Users/47653943/Desktop/backend/memotest/3' },
-  { id: 1, img: 'C:/Users/47653943/Desktop/backend/memotest/1' },
-  { id: 2, img: 'C:/Users/47653943/Desktop/backend/memotest/2' },
-  { id: 3, img: 'C:/Users/47653943/Desktop/backend/memotest/3' },
-];
-
-// Guardar los datos en la base de datos
-async function saveCards() {
-  for (const card of cards) {
-    await prisma.card.create({
-      data: {
-        img: card.img
-      }
-    });
-  }
-  console.log("Datos guardados en la base de datos");
-}
-
-// Ruta para obtener los datos
-app.get('/', async (req, res) => {
-  const allCards = await prisma.card.findMany();
-  res.json(allCards);
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port 3000`);
-  saveCards();
-});
-*/
-// index.js
-
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const express = require('express'); // Suponiendo que uses Express para tu servidor
@@ -87,8 +38,64 @@ app.get('/puzzle-words', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las palabras del Puzzle' });
   }
+
 });
+
 
 
 // Escuchar en el puerto
 module.exports = app;
+import { v2 as cloudinary } from 'cloudinary';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
+// Configura Cloudinary con las variables de entorno
+cloudinary.config({ 
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET 
+});
+
+const imagePaths = [
+    'C:\\Users\\47653943\\Documents\\GitHub\\db_esi\\memotest\\1.jpg',
+    'C:\\Users\\47653943\\Documents\\GitHub\\db_esi\\memotest\\2.png',
+    'C:\\Users\\47653943\\Documents\\GitHub\\db_esi\\memotest\\3.jpg'
+];
+
+async function uploadImages() {
+    try {
+        for (const imagePath of imagePaths) {
+            const publicId = uuidv4();
+            const uploadResult = await cloudinary.uploader.upload(imagePath, {
+                public_id: publicId,
+            });
+            console.log(`Uploaded ${imagePath} with public_id ${publicId}:`, uploadResult);
+        }
+    } catch (error) {
+        console.error('Error uploading images:', error);
+    }
+}
+
+uploadImages();
+
+// Example function to get optimized and transformed URLs
+function getImageUrls(publicId) {
+    const optimizeUrl = cloudinary.url(publicId, {
+        fetch_format: 'auto',
+        quality: 'auto'
+    });
+
+    const autoCropUrl = cloudinary.url(publicId, {
+        crop: 'auto',
+        gravity: 'auto',
+        width: 500,
+        height: 500,
+    });
+
+    return { optimizeUrl, autoCropUrl };
+}
+
+// Export a function to be used in your frontend
+export function getPublicImageUrls(publicId) {
+    return getImageUrls(publicId);
+}
