@@ -45,6 +45,8 @@ app.get('/puzzle-words', async (req, res) => {
 
 // Escuchar en el puerto
 module.exports = app;
+
+/*
 import { v2 as cloudinary } from 'cloudinary';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -99,3 +101,4 @@ function getImageUrls(publicId) {
 export function getPublicImageUrls(publicId) {
     return getImageUrls(publicId);
 }
+*/
