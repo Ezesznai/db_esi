@@ -31,20 +31,15 @@ model Post {
 }
 
 model Card {
-  id  Int    @id @default(autoincrement())
+  id  Int    @id
   img String
 }
 
-// Modelo para las palabras de la sopa de letras general
-model Word {
-  id        Int      @id @default(autoincrement())
-  word      String   @unique
-  createdAt DateTime @default(now())
-}
+
 
 // Modelo para palabras específicas de una sopa de letras
 model PuzzleWord {
   id        Int      @id @default(autoincrement())
-  respeto String
-  amistad String
 }
+
+
