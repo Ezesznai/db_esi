@@ -18,7 +18,7 @@ app.post('/', async (req, res) => {
 });
 
 // Ruta para agregar palabras a PuzzleWord
-app.post('/puzzle-words', async (req, res) => {
+app.post('/puzzlewords', async (req, res) => {
   const { word } = req.body;
   try {
     const newPuzzleWord = await prisma.puzzleWord.create({
