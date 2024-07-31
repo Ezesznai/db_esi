@@ -31,7 +31,7 @@ app.post('/puzzlewords', async (req, res) => {
 });
 
 // Ruta para obtener todas las palabras de PuzzleWord
-app.get('/puzzle-words', async (req, res) => {
+app.get('/puzzlewords', async (req, res) => {
   try {
     const allPuzzleWords = await prisma.puzzleWord.findMany();
     res.json(allPuzzleWords);
