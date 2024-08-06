@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-const express = require('express'); // Suponiendo que uses Express para tu servidor
+import express from 'express';
 const app = express.Router();
 app.use(express.json());
 
