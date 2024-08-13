@@ -44,9 +44,7 @@ export default async (req, res) => {
 };
 
 
-
 /*
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
@@ -90,5 +88,4 @@ export default async (req, res) => {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 };
-
-/*
+*/
