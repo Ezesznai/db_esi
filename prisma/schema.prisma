@@ -35,7 +35,10 @@ model Card {
   img String
 }
 
-
+model Preguntas {
+  id Int @id
+  pregunta String
+}
 
 // Modelo para palabras específicas de una sopa de letras
 model PuzzleWord {
