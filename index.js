@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
 app.use("/api", apiRoutes)
+
   
   // Ruta para obtener los datos //necesito hacer un commit
   app.get('/', async (req, res) => {
