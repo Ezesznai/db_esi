@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 import express from 'express';
 const app = express.Router();
 app.use(express.json());
-const express = require('express');
 const cors = require('cors');
 
 app.use(cors());

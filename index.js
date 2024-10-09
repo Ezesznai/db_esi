@@ -7,6 +7,8 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.use("/api", apiRoutes)
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
   
   // Ruta para obtener los datos //necesito hacer un commit
   app.get('/', async (req, res) => {
