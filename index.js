@@ -2,6 +2,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
 import apiRoutes from "./api/index.js"
+import cors from 'cors';
+
+app.use(cors());
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
