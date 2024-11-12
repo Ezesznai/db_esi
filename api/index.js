@@ -4,7 +4,6 @@ import express from 'express';
 const app = express.Router();
 app.use(express.json());
 import cors from 'cors';
-
 app.use(cors());
 
 app.post("/preguntas", async (req,res)=> {
@@ -63,6 +62,61 @@ app.get("/", async (req, res) => {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+  app.get('/api/infoPrimero', async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({
+        where: { id: 1 },
+      });
+      if (info) {
+        res.json(info);
+      } else {
+        res.status(404).json({ error: 'Información no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al obtener la información:', error);
+      res.status(500).json({ error: 'Error al obtener la información' });
+    }
+  });
+  
+  // Ruta para /infoSegundo
+  app.get('/api/infoSegundo', async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({
+        where: { id: 2 },
+      });
+      if (info) {
+        res.json(info);
+      } else {
+        res.status(404).json({ error: 'Información no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al obtener la información:', error);
+      res.status(500).json({ error: 'Error al obtener la información' });
+    }
+  });
+  
+  // Ruta para /infoTercero
+  app.get('/api/infoTercero', async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({
+        where: { id: 3 },
+      });
+      if (info) {
+        res.json(info);
+      } else {
+        res.status(404).json({ error: 'Información no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al obtener la información:', error);
+      res.status(500).json({ error: 'Error al obtener la información' });
+    }
+  });
+  
+  // Iniciar el servidor en un puerto especificado (puedes usar 3000 o el que prefieras)
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+  });
 })
 
 

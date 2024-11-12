@@ -46,4 +46,10 @@ model PuzzleWord {
   word      Json
 }
 
+model Info {
+  id         Int    @id @default(autoincrement())
+  infografia String
+}
+
+
 
