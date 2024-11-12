@@ -70,11 +70,11 @@ app.get("/", async (req, res) => {
       if (info) {
         res.json(info);
       } else {
-        res.status(404).json({ error: 'Información no encontrada' });
+        res.status(404).json({ error: 'Infografía no encontrada' });
       }
     } catch (error) {
-      console.error('Error al obtener la información:', error);
-      res.status(500).json({ error: 'Error al obtener la información' });
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener la infografía' });
     }
   });
   
