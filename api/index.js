@@ -33,11 +33,11 @@ app.post('/', async (req, res) => {
     const newCard = await prisma.card.create({
       data: { img },
     });
-    /* res.status(201).json(newCard);
+     res.status(201).json(newCard);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el Card' });
   }
-    */
+    
 });
 
 app.get("/", async (req, res) => {
