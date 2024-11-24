@@ -1,3 +1,81 @@
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+import express from 'express';
+const app = express.Router();
+app.use(express.json());
+import cors from 'cors';
+app.use(cors());
+
+// Ruta para agregar una nueva pregunta
+app.post("/preguntas", async (req, res) => {
+  const preg = req.body.pregunta;
+  if (preg !== "") {
+    const addPreg = await prisma.preguntas.create({
+      data: { pregunta: preg }
+    });
+    return res.json(addPreg);
+  }
+  res.status(401).json({ "error": "recibido una cadena vacía" });
+});
+
+// Ruta para obtener todas las preguntas
+app.get("/preguntas", async (req, res) => {
+  const preg = await prisma.preguntas.findMany({
+    select: {
+      id: true,
+      pregunta: true
+    }
+  });
+  res.json(preg);
+});
+
+// Ruta para agregar un Card
+app.post('/', async (req, res) => {
+  const { img } = req.body;
+  const newCard = await prisma.card.create({
+    data: { img },
+  });
+  res.status(201).json(newCard);
+});
+
+// Ruta para obtener todas las palabras de PuzzleWord
+app.get("/", async (req, res) => {
+  const words = await prisma.puzzleWord.findMany({
+    select: {
+      id: true,
+      word: true,
+    },
+  });
+  res.status(200).json(words);
+});
+
+// Ruta para obtener información de "infoPrimero"
+app.get('/api/infoPrimero', async (req, res) => {
+  const info = await prisma.info.findUnique({
+    where: { id: 1 },
+  });
+  res.json(info);
+});
+
+// Ruta para obtener información de "infoSegundo"
+app.get('/api/infoSegundo', async (req, res) => {
+  const info = await prisma.info.findUnique({
+    where: { id: 2 },
+  });
+  res.json(info);
+});
+
+// Ruta para obtener información de "infoTercero"
+app.get('/api/infoTercero', async (req, res) => {
+  const info = await prisma.info.findUnique({
+    where: { id: 3 },
+  });
+  res.json(info);
+});
+
+export default app;
+
+/*
 //Desde aca hasta export default app estaba en el archivo orginal
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
