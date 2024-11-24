@@ -63,21 +63,15 @@ app.get("/", async (req, res) => {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-  app.get('/infoPrimero', async (req, res) => {
-    try {
-      const info = await prisma.info.findUnique({
-        where: { id: 1 },
-      });
-      if (info) {
-        res.json(info);
-      } else {
-        res.status(404).json({ error: 'Infografía no encontrada' });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Error al obtener la infografía' });
+  app.get('/api/infoPrimero', async (req, res) => {
+    const info = await prisma.info.findUnique({ where: { id: 1 } });
+    if (info) {
+      res.send(info.texto); // Reemplaza `texto` con el campo de tu tabla que contiene el texto que quieres devolver.
+    } else {
+      res.send('Infografía no encontrada'); // Devuelve un mensaje en caso de no encontrar el registro.
     }
   });
+  
   
   // Ruta para /infoSegundo
   app.get('/infoSegundo', async (req, res) => {
