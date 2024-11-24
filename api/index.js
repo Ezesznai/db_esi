@@ -1,9 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
-const app = express.Router();
-app.use(express.json());
 import cors from 'cors';
+
+const app = express();
+app.use(express.json());
 app.use(cors());
 
 // Ruta para agregar una nueva pregunta
@@ -11,45 +12,46 @@ app.post("/preguntas", async (req, res) => {
   const preg = req.body.pregunta;
   if (preg !== "") {
     const addPreg = await prisma.preguntas.create({
-      data: { pregunta: preg }
+      data: { pregunta: preg },
     });
-    return res.json(addPreg);
+    res.json(addPreg);
+  } else {
+    res.status(400).json({ error: "Cadena vacía no permitida" });
   }
-  res.status(401).json({ "error": "recibido una cadena vacía" });
 });
 
 // Ruta para obtener todas las preguntas
 app.get("/preguntas", async (req, res) => {
-  const preg = await prisma.preguntas.findMany({
+  const preguntas = await prisma.preguntas.findMany({
     select: {
       id: true,
-      pregunta: true
-    }
+      pregunta: true,
+    },
   });
-  res.json(preg);
+  res.json(preguntas);
 });
 
 // Ruta para agregar un Card
-app.post('/', async (req, res) => {
+app.post('/cards', async (req, res) => {
   const { img } = req.body;
   const newCard = await prisma.card.create({
     data: { img },
   });
-  res.status(201).json(newCard);
+  res.json(newCard);
 });
 
 // Ruta para obtener todas las palabras de PuzzleWord
-app.get("/", async (req, res) => {
+app.get("/puzzleWords", async (req, res) => {
   const words = await prisma.puzzleWord.findMany({
     select: {
       id: true,
       word: true,
     },
   });
-  res.status(200).json(words);
+  res.json(words);
 });
 
-// Ruta para obtener información de "infoPrimero"
+// Rutas para obtener información específica
 app.get('/api/infoPrimero', async (req, res) => {
   const info = await prisma.info.findUnique({
     where: { id: 1 },
@@ -57,7 +59,6 @@ app.get('/api/infoPrimero', async (req, res) => {
   res.json(info);
 });
 
-// Ruta para obtener información de "infoSegundo"
 app.get('/api/infoSegundo', async (req, res) => {
   const info = await prisma.info.findUnique({
     where: { id: 2 },
@@ -65,7 +66,6 @@ app.get('/api/infoSegundo', async (req, res) => {
   res.json(info);
 });
 
-// Ruta para obtener información de "infoTercero"
 app.get('/api/infoTercero', async (req, res) => {
   const info = await prisma.info.findUnique({
     where: { id: 3 },
@@ -73,6 +73,7 @@ app.get('/api/infoTercero', async (req, res) => {
   res.json(info);
 });
 
+// Exportar la aplicación
 export default app;
 
 /*
