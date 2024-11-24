@@ -63,7 +63,7 @@ app.get("/", async (req, res) => {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-  app.get('/api/infoPrimero', async (req, res) => {
+  app.get('/infoPrimero', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
         where: { id: 1 },
@@ -80,7 +80,7 @@ app.get("/", async (req, res) => {
   });
   
   // Ruta para /infoSegundo
-  app.get('/api/infoSegundo', async (req, res) => {
+  app.get('/infoSegundo', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
         where: { id: 2 },
@@ -97,7 +97,7 @@ app.get("/", async (req, res) => {
   });
   
   // Ruta para /infoTercero
-  app.get('/api/infoTercero', async (req, res) => {
+  app.get('/infoTercero', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
         where: { id: 3 },
