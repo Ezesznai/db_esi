@@ -1,3 +1,5 @@
+//Desde aca hasta export default app estaba en el archivo orginal
+/*
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
@@ -118,77 +120,116 @@ app.get("/", async (req, res) => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
   });
 })
-
-
-// Ruta para gestionar PuzzleWords
 export default app
-// async (req, res) => {
-//   if (req.method === 'GET') {
-//     try {
-//       // Recuperar todas las palabras de la tabla PuzzleWord
-//       const words = await prisma.puzzleWord.findMany({
-//         select: {
-//           id: true,
-//           word: true, // Aquí se espera que 'word' sea un JSON
-//         },
-//       });
-
-//       // Enviar la respuesta con las palabras
-//       res.status(200).json(words);
-//     } catch (error) {
-//       // Manejo de errores
-//       console.error('Error al recuperar las palabras:', error);
-//       res.status(500).json({ error: 'Error al recuperar las palabras' });
-//     }
-//   } else {
-//     // Manejo de métodos no permitidos
-//     res.setHeader('Allow', ['GET']);
-//     res.status(405).end(`Method ${req.method} Not Allowed`);
-//   }
-// };
-
-/*
+*/
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
-const app = express.Router();
-app.use(express.json());
+import cors from 'cors';
+const app = express();
 
-// Ruta para gestionar Card
-app.post('/', async (req, res) => {
-  const { img } = req.body;
+// Middlewares
+app.use(express.json());
+app.use(cors());
+
+// Rutas API (adaptadas de api/index.js)
+app.use("/api", express.Router()
+  .post("/preguntas", async (req, res) => {
+    const preg = req.body.pregunta;
+    if (preg !== "") {
+      try {
+        const addPreg = await prisma.preguntas.create({ data: { pregunta: preg } });
+        return res.json(addPreg);
+      } catch (error) {
+        console.error("Error al crear pregunta:", error);
+        return res.status(500).json({ error: "Error al guardar la pregunta" });
+      }
+    }
+    res.status(401).json({ error: "Se recibió un string vacío" });
+  })
+  .get("/preguntas", async (req, res) => {
+    try {
+      const preg = await prisma.preguntas.findMany({
+        select: { id: true, pregunta: true }
+      });
+      res.json(preg);
+    } catch (error) {
+      console.error("Error al obtener preguntas:", error);
+      res.status(500).json({ error: "Error al obtener las preguntas" });
+    }
+  })
+  .post("/", async (req, res) => {
+    const { img } = req.body;
+    try {
+      const newCard = await prisma.card.create({ data: { img } });
+      res.status(201).json(newCard);
+    } catch (error) {
+      res.status(500).json({ error: "Error al crear el Card" });
+    }
+  })
+  .get("/", async (req, res) => {
+    try {
+      const words = await prisma.puzzleWord.findMany({
+        select: { id: true, word: true },
+      });
+      res.status(200).json(words);
+    } catch (error) {
+      console.error("Error al recuperar las palabras:", error);
+      res.status(500).json({ error: "Error al recuperar las palabras" });
+    }
+  })
+  .get("/infoPrimero", async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({ where: { id: 1 } });
+      info ? res.json(info) : res.status(404).json({ error: "Infografía no encontrada" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al obtener la infografía" });
+    }
+  })
+  .get("/infoSegundo", async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({ where: { id: 2 } });
+      info ? res.json(info) : res.status(404).json({ error: "Información no encontrada" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al obtener la información" });
+    }
+  })
+  .get("/infoTercero", async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({ where: { id: 3 } });
+      info ? res.json(info) : res.status(404).json({ error: "Información no encontrada" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al obtener la información" });
+    }
+  })
+);
+
+// Ruta raíz (integrada)
+app.get('/', async (req, res) => {
   try {
-    const newCard = await prisma.card.create({
-      data: { img },
-    });
-    res.status(201).json(newCard);
+    const allCards = await prisma.card.findMany();
+    res.json(allCards);
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear el Card' });
+    console.error("Error al obtener los datos:", error);
+    res.status(500).json({ error: "Error al obtener los datos" });
   }
 });
 
-export default async (req, res) => {
-  if (req.method === 'GET') {
-    try {
-      // Recuperar todas las palabras de la tabla PuzzleWord
-      const words = await prisma.puzzleWord.findMany({
-        select: {
-          id: true,
-          word: true,
-        },
-      });
+// Favicon handler
+app.get('/favicon.ico', (req, res) => res.status(204));
 
-      // Enviar la respuesta con las palabras
-      res.status(200).json(words);
-    } catch (error) {
-      // Manejo de errores
-      console.error('Error al recuperar las palabras:', error);
-      res.status(500).json({ error: 'Error al recuperar las palabras' });
-    }
-  } else {
-    // Manejo de métodos no permitidos
-    res.setHeader('Allow', ['GET']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-};
-*/
+// Server listener
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor ejecutándose en el puerto ${port}`);
+});
+
+// Prisma cleanup
+process.on('SIGINT', async () => {
+  await prisma.$disconnect();
+  process.exit();
+});
+
