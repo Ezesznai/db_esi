@@ -5,7 +5,6 @@ import express from 'express';
 const app = express.Router();
 app.use(express.json());
 import cors from 'cors';
-import { info } from 'console';
 app.use(cors());
 
 app.post("/preguntas", async (req,res)=> {
@@ -66,7 +65,7 @@ app.get("/", async (req, res) => {
   }
   app.get('/api/infoPrimero', async (req, res) => {
     try {
-      /*const info = await prisma.info.findUnique({
+      const info = await prisma.info.findUnique({
         where: { id: 1 },
       });
       if (info) {
@@ -78,16 +77,6 @@ app.get("/", async (req, res) => {
       console.error(error);
       res.status(500).json({ error: 'Error al obtener la infografía' });
     }
-      */
-    if (req.method === 'GET') {
-      try {
-        // Recuperar todas las palabras de la tabla PuzzleWord
-        const info = await prisma.info.findMany({
-          select: {
-            id: true,
-            info: true, // Aquí se espera que 'word' sea un JSON
-          },
-        });
   });
   
   // Ruta para /infoSegundo
