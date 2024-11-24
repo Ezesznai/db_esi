@@ -1,3 +1,116 @@
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+import express from 'express';
+
+const app = express.Router();
+app.use(express.json());
+
+// Ruta para crear preguntas
+app.post("/preguntas", async (req, res) => {
+  const preg = req.body.pregunta;
+  if (preg !== "") {
+    const addPreg = await prisma.preguntas.create({
+      data: { pregunta: preg }
+    });
+    return res.json(addPreg);
+  }
+  res.status(401).json({ "error": "recieved empty string" });
+});
+
+// Ruta para obtener preguntas
+app.get("/preguntas", async (req, res) => {
+  const preg = await prisma.preguntas.findMany({
+    select: {
+      id: true,
+      pregunta: true
+    }
+  });
+  res.json(preg);
+});
+
+// Ruta para crear una Card
+app.post("/", async (req, res) => {
+  const { img } = req.body;
+  try {
+    const newCard = await prisma.card.create({
+      data: { img },
+    });
+    res.status(201).json(newCard);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al crear el Card' });
+  }
+});
+
+// Ruta para obtener todas las palabras
+app.get("/", async (req, res) => {
+  try {
+    const words = await prisma.puzzleWord.findMany({
+      select: {
+        id: true,
+        word: true,
+      },
+    });
+    res.status(200).json(words);
+  } catch (error) {
+    console.error('Error al recuperar las palabras:', error);
+    res.status(500).json({ error: 'Error al recuperar las palabras' });
+  }
+});
+
+// Ruta para obtener 'infoPrimero'
+app.get('/infoPrimero', async (req, res) => {
+  try {
+    const info = await prisma.info.findUnique({
+      where: { id: 1 },
+    });
+    if (info) {
+      res.json(info);
+    } else {
+      res.status(404).json({ error: 'Infografía no encontrada' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener la infografía' });
+  }
+});
+
+// Ruta para obtener 'infoSegundo'
+app.get('/infoSegundo', async (req, res) => {
+  try {
+    const info = await prisma.info.findUnique({
+      where: { id: 2 },
+    });
+    if (info) {
+      res.json(info);
+    } else {
+      res.status(404).json({ error: 'Información no encontrada' });
+    }
+  } catch (error) {
+    console.error('Error al obtener la información:', error);
+    res.status(500).json({ error: 'Error al obtener la información' });
+  }
+});
+
+// Ruta para obtener 'infoTercero'
+app.get('/infoTercero', async (req, res) => {
+  try {
+    const info = await prisma.info.findUnique({
+      where: { id: 3 },
+    });
+    if (info) {
+      res.json(info);
+    } else {
+      res.status(404).json({ error: 'Información no encontrada' });
+    }
+  } catch (error) {
+    console.error('Error al obtener la información:', error);
+    res.status(500).json({ error: 'Error al obtener la información' });
+  }
+});
+
+export default app;
+
+/*
 //Desde aca hasta export default app estaba en el archivo orginal
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
