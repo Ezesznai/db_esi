@@ -74,7 +74,7 @@ app.get("/", async (req, res) => {
   
   
   // Ruta para /infoSegundo
-  app.get('/infoSegundo', async (req, res) => {
+  app.get('api/infoSegundo', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
         where: { id: 2 },
@@ -91,7 +91,7 @@ app.get("/", async (req, res) => {
   });
   
   // Ruta para /infoTercero
-  app.get('/infoTercero', async (req, res) => {
+  app.get('api/infoTercero', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
         where: { id: 3 },
