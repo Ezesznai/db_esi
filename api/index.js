@@ -176,28 +176,14 @@ app.post('/login', async (req, res) => {
     return res.status(401).json({ message: 'Datos no válidos' });
   }
 
-  // Si todo es correcto, devolver una respuesta exitosa
+  // Si todo es correcto, devolver una respuesta exitosa con todos los campos, incluido el 'id'
   return res.status(200).json({ message: 'Inicio de sesión exitoso', usuario });
 });
 
-// Ruta para obtener los datos del usuario sin el id
-app.get('/usuario/:nombre', async (req, res) => {
-  const { nombre } = req.params;
-
-  const usuario = await prisma.usuario.findUnique({
-    where: { nombre: nombre },
-  });
-
-  if (!usuario) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-
-  // Excluir el campo 'id' antes de enviar la respuesta
-  const { id, ...usuarioSinId } = usuario;
-
-  return res.status(200).json(usuarioSinId);
+// Iniciar el servidor
+app.listen(3000, () => {
+  console.log('Servidor corriendo en http://localhost:3000');
 });
-
 
 // Ruta para gestionar PuzzleWords
 export default app
