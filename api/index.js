@@ -89,7 +89,7 @@ app.get("/puzzlewords", async (req, res) => {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  /*
+  
   app.get('/api/infoPrimero', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
@@ -105,9 +105,9 @@ app.get("/puzzlewords", async (req, res) => {
       res.status(500).json({ error: 'Error al obtener la infografía' });
     }
   });
-  */
+  
 
-
+/*
   app.get("/infoprimero", async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
@@ -123,6 +123,7 @@ app.get("/puzzlewords", async (req, res) => {
       res.status(500).json({ error: 'Error al obtener la infografía' });
     }
   });
+*/
 
   // Ruta para /infoSegundo
   app.get('/api/infoSegundo', async (req, res) => {
