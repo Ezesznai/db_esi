@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  name     String
+  posts    Post[]  // Relación inversa (Un usuario tiene muchos posts)
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String
+  published Boolean @default(false)
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  Int     // La clave foránea
+}
+
+model Card {
+  id  Int    @id @default(autoincrement())
+  img String
+}
+
+model preguntas {
+  id Int @id @default(autoincrement())
+  pregunta String
+}
+
+// Modelo para palabras específicas de una sopa de letras
+model PuzzleWord {
+  id        Int      @id @default(autoincrement())
+  word      Json
+}
+
+model Info {
+  id         Int    @id @default(autoincrement())
+  infografia String
+}
+
+model usuarios {
+  id         Int    @id @default(autoincrement())
+  nombre     String
+  password String
+  score_mt   Int
+  tiempo_sp  Int
+}
+
+
+
+
+
