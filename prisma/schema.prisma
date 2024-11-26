@@ -31,12 +31,12 @@ model Post {
 }
 
 model Card {
-  id  Int    @id
+  id  Int    @id @default(autoincrement())
   img String
 }
 
-model Preguntas {
-  id Int @id
+model preguntas {
+  id Int @id @default(autoincrement())
   pregunta String
 }
 
