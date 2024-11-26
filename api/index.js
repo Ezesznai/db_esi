@@ -31,7 +31,7 @@ app.get("/preguntas", async (req,res)=> {
 })
 
 // Ruta para gestionar Card (Este código es específico para una tabla diferente, pero lo mantendré como está)
-/*app.post('/card', cors(), async (req, res) => {
+app.post('/card', cors(), async (req, res) => {
   const { img } = req.body;
   try {
     const newCard = await prisma.card.create({
@@ -42,17 +42,7 @@ app.get("/preguntas", async (req,res)=> {
     res.status(500).json({ error: 'Error al crear el Card' });
   }
 });
-*/
-app.get("/Card", async (req, res) => {
-  if (req.method === 'GET') {
-    try {
-      // Recuperar todas las palabras de la tabla PuzzleWord
-      const card = await prisma.card.findMany({
-        select: {
-          id: true,
-          img: true, // Aquí se espera que 'word' sea un JSON
-        },
-      });
+
 
 
 app.get("/puzzlewords", async (req, res) => {
