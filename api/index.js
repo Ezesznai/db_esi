@@ -30,21 +30,6 @@ app.get("/preguntas", async (req,res)=> {
   res.json(preg)
 })
 
-/*
-// Ruta para gestionar Card (Este código es específico para una tabla diferente, pero lo mantendré como está)
-app.post('/card', cors(), async (req, res) => {
-  const { img } = req.body;
-  try {
-    const newCard = await prisma.card.create({
-      data: { img },
-    });
-    res.status(201).json(newCard);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear el Card' });
-  }
-});
-
-*/
 
 // Habilitar CORS solo para la ruta /card
 app.get('/card', cors(), async (req, res) => {
@@ -89,13 +74,25 @@ app.get("/puzzlewords", async (req, res) => {
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  
-  // Iniciar el servidor en un puerto especificado (puedes usar 3000 o el que prefieras)
-  // const PORT = process.env.PORT || 3000;
-  // app.listen(PORT, () => {
-  //   console.log(`Servidor escuchando en http://localhost:${PORT}`);
-  // });
 })
+
+app.get('/infoprimero', async (req, res) => {
+  try {
+    const data = await prisma.info.findUnique({
+      where: { id: 1 },
+      select: { infografia: true }, // Selecciona solo la columna infografia
+    });
+
+    if (!data) {
+      return res.status(404).json({ error: 'No se encontró la información con el ID 1' });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error al obtener la infografía:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 
 
 // Ruta para gestionar PuzzleWords
@@ -124,4 +121,6 @@ export default app
      res.status(405).end(`Method ${req.method} Not Allowed`);
    }
  };
+
+
 
