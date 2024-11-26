@@ -15,19 +15,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id       Int     @id @default(autoincrement())
+  name     String
+  posts    Post[]  // Relación inversa (Un usuario tiene muchos posts)
 }
 
 model Post {
   id        Int     @id @default(autoincrement())
   title     String
-  content   String?
+  content   String
   published Boolean @default(false)
   author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+  authorId  Int     // La clave foránea
 }
 
 model Card {
@@ -50,6 +49,16 @@ model Info {
   id         Int    @id @default(autoincrement())
   infografia String
 }
+
+model usuarios {
+  id         Int    @id @default(autoincrement())
+  nombre     String
+  password String
+  score_mt   Int
+  tiempo_sp  Int
+}
+
+
 
 
 
