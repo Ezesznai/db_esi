@@ -88,6 +88,8 @@ app.get("/puzzlewords", async (req, res) => {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  /*
   app.get('/api/infoPrimero', async (req, res) => {
     try {
       const info = await prisma.info.findUnique({
@@ -100,6 +102,24 @@ app.get("/puzzlewords", async (req, res) => {
       }
     } catch (error) {
       console.error(error);
+      res.status(500).json({ error: 'Error al obtener la infografía' });
+    }
+  });
+  */
+
+
+  app.get('/api/infoPrimero', async (req, res) => {
+    try {
+      const info = await prisma.info.findUnique({
+        where: { id: 1 }, // Cambia 'id' si el campo de búsqueda es diferente
+      });
+      if (info) {
+        res.status(200).json(info);
+      } else {
+        res.status(404).json({ error: 'Infografía no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al obtener la infografía:', error);
       res.status(500).json({ error: 'Error al obtener la infografía' });
     }
   });
