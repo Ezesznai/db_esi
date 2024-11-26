@@ -2,11 +2,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import express from 'express';
 const app = express.Router();
-// app.use(express.json());
-// import cors from 'cors';
+app.use(express.json());
+import cors from 'cors';
 
-// app.use(cors(), express.json());
-// app.use(express.json())
+app.use(cors(), express.json());
+app.use(express.json())
 
 app.post("/preguntas", async (req,res)=> {
   console.log("body ", req.body)
