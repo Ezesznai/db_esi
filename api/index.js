@@ -43,7 +43,7 @@ app.post('/', async (req, res) => {
   }
 });
 
-app.get("/", async (req, res) => {
+app.get("/puzzlewords", async (req, res) => {
   if (req.method === 'GET') {
     try {
       // Recuperar todas las palabras de la tabla PuzzleWord
