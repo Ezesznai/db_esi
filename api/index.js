@@ -30,6 +30,7 @@ app.get("/preguntas", async (req,res)=> {
   res.json(preg)
 })
 
+/*
 // Ruta para gestionar Card (Este código es específico para una tabla diferente, pero lo mantendré como está)
 app.post('/card', cors(), async (req, res) => {
   const { img } = req.body;
@@ -40,6 +41,60 @@ app.post('/card', cors(), async (req, res) => {
     res.status(201).json(newCard);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el Card' });
+  }
+});
+
+*/
+
+app.use(express.json());  // Para analizar los cuerpos JSON en las solicitudes
+
+// Habilitar CORS solo para la ruta /card
+app.post('/card', cors(), async (req, res) => {
+  const { imgLinks } = req.body; // Espera un array de enlaces de imágenes (por ejemplo, de Cloudinary)
+  
+  // Validar que se recibieron enlaces
+  if (!imgLinks || !Array.isArray(imgLinks)) {
+    return res.status(400).json({ error: 'Se esperaba un array de enlaces de imágenes' });
+  }
+
+  try {
+    // Guardar el JSON de enlaces en la base de datos
+    const newCard = await prisma.card.create({
+      data: { imgLinks: JSON.stringify(imgLinks) }, // Guardar el JSON como un string
+    });
+
+    // Devolver la respuesta con los datos guardados
+    res.status(201).json({
+      message: 'Card creado exitosamente',
+      card: newCard,
+    });
+  } catch (error) {
+    console.error('Error al crear el Card:', error);
+    res.status(500).json({ error: 'Error al crear el Card' });
+  }
+});
+
+// Ruta para obtener las cards con los enlaces de las imágenes
+app.get('/card', async (req, res) => {
+  try {
+    // Recuperar todas las cards desde la base de datos
+    const cards = await prisma.card.findMany({
+      select: {
+        id: true,
+        imgLinks: true, // Devolver el campo con los enlaces de imágenes
+      },
+    });
+
+    // Parsear los enlaces de las imágenes (deben ser JSON válidos)
+    const cardsWithLinks = cards.map(card => ({
+      ...card,
+      imgLinks: JSON.parse(card.imgLinks), // Convertir el string JSON a un array
+    }));
+
+    res.status(200).json(cardsWithLinks);
+  } catch (error) {
+    console.error('Error al obtener las cards:', error);
+    res.status(500).json({ error: 'Error al obtener las cards' });
   }
 });
 
