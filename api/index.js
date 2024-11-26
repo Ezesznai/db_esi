@@ -46,6 +46,7 @@ app.post('/card', cors(), async (req, res) => {
 
 */
 
+// Habilitar CORS solo para la ruta /card
 app.get('/card', cors(), async (req, res) => {
   try {
     // Obtener todos los registros de la tabla 'card'
