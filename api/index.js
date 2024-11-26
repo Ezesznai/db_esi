@@ -44,17 +44,8 @@ app.post('/card', async (req, res) => {
 });
 */
 
-app.post('/card', cors(), async (req, res) => {
-  const { img } = req.body;
-  try {
-    const newCard = await prisma.card.create({
-      data: { img },
-    });
-    res.status(201).json(newCard);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al crear el Card' });
-  }
-});
+app.use(cors(), express.json());
+app.use(express.json())
 app.get("/puzzlewords", async (req, res) => {
   if (req.method === 'GET') {
     try {
