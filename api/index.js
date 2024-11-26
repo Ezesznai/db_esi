@@ -94,6 +94,62 @@ app.get('/infoprimero', async (req, res) => {
   }
 });
 
+app.get('/infosegundo', async (req, res) => {
+  try {
+    const data = await prisma.info.findUnique({
+      where: { id: 2 },
+      select: { infografia: true }, // Selecciona solo la columna infografia
+    });
+
+    if (!data) {
+      return res.status(404).json({ error: 'No se encontró la información con el ID 2' });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error al obtener la infografía:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Ruta para obtener la infografía del ID 2
+app.get('/infosegundo', async (req, res) => {
+  try {
+    const data = await prisma.info.findUnique({
+      where: { id: 2 },
+      select: { infografia: true },
+    });
+
+    if (!data) {
+      return res.status(404).json({ error: 'No se encontró la información con el ID 2' });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error al obtener la infografía:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Ruta para obtener la infografía del ID 3
+app.get('/infotercero', async (req, res) => {
+  try {
+    const data = await prisma.info.findUnique({
+      where: { id: 3 },
+      select: { infografia: true },
+    });
+
+    if (!data) {
+      return res.status(404).json({ error: 'No se encontró la información con el ID 3' });
+    }
+
+    res.json(data);
+  } catch (error) {
+    console.error('Error al obtener la infografía:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
 
 // Ruta para gestionar PuzzleWords
 export default app
