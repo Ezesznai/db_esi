@@ -151,39 +151,7 @@ app.get('/infotercero', async (req, res) => {
 });
 
 
-// Ruta para iniciar sesión
-app.post('/login', async (req, res) => {
-  const { nombre, contraseña, score_mt, tiempo_sp } = req.body;
 
-  // Verificar si el usuario existe con el nombre
-  const usuario = await prisma.usuario.findUnique({
-    where: { nombre: nombre },
-  });
-
-  if (!usuario) {
-    return res.status(401).json({ message: 'Usuario no encontrado' });
-  }
-
-  // Verificar si la contraseña coincide (si la usas cifrada con bcrypt)
-  const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
-
-  if (!contraseñaValida) {
-    return res.status(401).json({ message: 'Contraseña incorrecta' });
-  }
-
-  // Validar score_mt y tiempo_sp
-  if (usuario.score_mt !== score_mt || usuario.tiempo_sp !== tiempo_sp) {
-    return res.status(401).json({ message: 'Datos no válidos' });
-  }
-
-  // Si todo es correcto, devolver una respuesta exitosa con todos los campos, incluido el 'id'
-  return res.status(200).json({ message: 'Inicio de sesión exitoso', usuario });
-});
-
-// Iniciar el servidor
-app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000');
-});
 
 // Ruta para gestionar PuzzleWords
 export default app
