@@ -76,7 +76,7 @@ app.get("/puzzlewords", async (req, res) => {
 
 })
 
-app.get('/infoprimero', async (req, res) => {
+app.get('/infoprimero', cors(), async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 1 },
