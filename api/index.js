@@ -167,7 +167,7 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
-// Ruta para actualizar el primer usuario con valores nulos en score_mt y tiempo_sp
+
 app.post("/completar-usuario", cors(), async (req, res) => {
   const { score_mt, tiempo_sp } = req.body;
 
@@ -176,7 +176,7 @@ app.post("/completar-usuario", cors(), async (req, res) => {
   }
 
   try {
-    // Buscar el primer usuario con valores nulos en score_mt y tiempo_sp
+    
     const usuario = await prisma.usuarios.findFirst({
       where: {
         AND: [
