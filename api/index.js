@@ -167,6 +167,48 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
+// Ruta para actualizar el primer usuario con valores nulos en score_mt y tiempo_sp
+app.post("/completar-usuario", async (req, res) => {
+  const { score_mt, tiempo_sp } = req.body;
+
+  if (score_mt == null || tiempo_sp == null) {
+    return res.status(400).json({ error: "Se requieren los valores de score_mt y tiempo_sp" });
+  }
+
+  try {
+    // Buscar el primer usuario con valores nulos en score_mt y tiempo_sp
+    const usuario = await prisma.usuarios.findFirst({
+      where: {
+        AND: [
+          { score_mt: null },
+          { tiempo_sp: null },
+        ],
+      },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ error: "No hay usuarios con valores incompletos" });
+    }
+
+    // Actualizar los valores de score_mt y tiempo_sp para ese usuario
+    const usuarioActualizado = await prisma.usuarios.update({
+      where: { id: usuario.id },
+      data: {
+        score_mt,
+        tiempo_sp,
+      },
+    });
+
+    res.status(200).json({
+      message: "Usuario actualizado correctamente",
+      usuario: usuarioActualizado,
+    });
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
 
 export default app
 
