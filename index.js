@@ -11,17 +11,17 @@ app.use("/api", apiRoutes)
 app.get('/favicon.ico', (req, res) => res.status(204));
 
   
-/*
+
   app.get('/', async (req, res) => {
     const allCards = await prisma.card.findMany();
     res.json(allCards);
   });
-  */
+/*
 app.listen(port, () => {
   console.log(`Server running on port 3000`);
   // saveCards();
 });
-
+*/
 process.on('SIGINT', async () => {
   await prisma.$disconnect();
   process.exit();
