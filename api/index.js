@@ -76,7 +76,7 @@ app.get("/puzzlewords", async (req, res) => {
 
 })
 
-app.get('/infoprimero', cors(), async (req, res) => {
+app.get('/infoprimero', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 1 },
@@ -93,8 +93,8 @@ app.get('/infoprimero', cors(), async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-/*
-app.get('/infosegundo', cors(), async (req, res) => {
+
+app.get('/infosegundo', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 2 },
@@ -111,9 +111,9 @@ app.get('/infosegundo', cors(), async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-*/
-// Ruta para obtener la infografía del ID 2
-app.get('/infosegundo', cors(), async (req, res) => {
+
+
+app.get('/infosegundo', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 2 },
@@ -131,8 +131,8 @@ app.get('/infosegundo', cors(), async (req, res) => {
   }
 });
 
-// Ruta para obtener la infografía del ID 3
-app.get('/infotercero', cors(), async (req, res) => {
+
+app.get('/infotercero', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 3 },
@@ -150,6 +150,23 @@ app.get('/infotercero', cors(), async (req, res) => {
   }
 });
 
+app.get("/usuarios", async (req, res) => {
+  try {
+    const usuarios = await prisma.usuarios.findMany({
+      select: {
+        id: true,
+        nombre: true,
+        score_mt: true,
+        tiempo_sp: true,
+      },
+    });
+    res.json(usuarios);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    res.status(500).json({ error: "Error interno al obtener usuarios" });
+  }
+});
+
 
 
 
@@ -162,7 +179,7 @@ export default app
        const words = await prisma.puzzleWord.findMany({
          select: {
            id: true,
-           word: true, // Aquí se espera que 'word' sea un JSON
+           word: true,          
          },
        });
 
