@@ -31,18 +31,18 @@ app.get("/preguntas", async (req,res)=> {
 })
 
 
-// Habilitar CORS solo para la ruta /card
+
 app.get('/card', cors(), async (req, res) => {
   try {
-    // Obtener todos los registros de la tabla 'card'
+    
     const cards = await prisma.card.findMany({
       select: {
-        id: true, // Selecciona el ID
-        img: true, // Selecciona el campo con los enlaces de imágenes
+        id: true, 
+        img: true, 
       },
     });
 
-    // Enviar los datos al cliente
+    
     res.status(200).json(cards);
   } catch (error) {
     console.error('Error al obtener los datos de las cards:', error);
@@ -57,7 +57,7 @@ app.get("/puzzlewords", async (req, res) => {
       const words = await prisma.puzzleWord.findMany({
         select: {
           id: true,
-          word: true, // Aquí se espera que 'word' sea un JSON
+          word: true, 
         },
       });
 
@@ -80,7 +80,7 @@ app.get('/infoprimero', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 1 },
-      select: { infografia: true }, // Selecciona solo la columna infografia
+      select: { infografia: true }, 
     });
 
     if (!data) {
@@ -98,7 +98,7 @@ app.get('/infosegundo', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
       where: { id: 2 },
-      select: { infografia: true }, // Selecciona solo la columna infografia
+      select: { infografia: true }, 
     });
 
     if (!data) {
@@ -190,7 +190,7 @@ app.post("/completar-usuario", cors(), async (req, res) => {
       return res.status(404).json({ error: "No hay usuarios con valores incompletos" });
     }
 
-    // Actualizar los valores de score_mt y tiempo_sp para ese usuario
+    
     const usuarioActualizado = await prisma.usuarios.update({
       where: { id: usuario.id },
       data: {
