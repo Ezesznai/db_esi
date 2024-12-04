@@ -54,8 +54,8 @@ model usuarios {
   id         Int    @id @default(autoincrement())
   nombre     String
   password String
-  score_mt   Int
-  tiempo_sp  Int
+  score_mt   Int?
+  tiempo_sp  Int?
 }
 
 
