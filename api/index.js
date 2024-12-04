@@ -167,49 +167,6 @@ app.get("/usuarios", async (req, res) => {
   }
 });
 
-// Ruta para actualizar el primer usuario con valores vacíos
-app.post("/actualizar-usuario", async (req, res) => {
-  const { score_mt, tiempo_sp } = req.body;
-
-  if (score_mt == null || tiempo_sp == null) {
-    return res.status(400).json({ error: "Se requieren score_mt y tiempo_sp" });
-  }
-
-  try {
-    // Encontrar el primer usuario con valores nulos en score_mt o tiempo_sp
-    const usuario = await prisma.usuarios.findFirst({
-      where: {
-        OR: [{ score_mt: null }, { tiempo_sp: null }],
-      },
-    });
-
-    if (!usuario) {
-      return res.status(404).json({ error: "No hay usuarios con valores vacíos" });
-    }
-
-    // Actualizar el usuario encontrado
-    const usuarioActualizado = await prisma.usuarios.update({
-      where: { id: usuario.id },
-      data: {
-        score_mt,
-        tiempo_sp,
-      },
-    });
-
-    res.status(200).json({
-      message: "Usuario actualizado correctamente",
-      usuario: usuarioActualizado,
-    });
-  } catch (error) {
-    console.error("Error al actualizar usuario:", error);
-    res.status(500).json({ error: "Error interno al actualizar el usuario" });
-  }
-});
-
-// Iniciar servidor
-app.listen(3000, () => {
-  console.log("Servidor corriendo en http://localhost:3000");
-});
 
 
 
