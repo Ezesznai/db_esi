@@ -53,7 +53,6 @@ app.get('/card', cors(), async (req, res) => {
 app.get("/puzzlewords", async (req, res) => {
   if (req.method === 'GET') {
     try {
-      // Recuperar todas las palabras de la tabla PuzzleWord
       const words = await prisma.puzzleWord.findMany({
         select: {
           id: true,
@@ -61,7 +60,6 @@ app.get("/puzzlewords", async (req, res) => {
         },
       });
 
-      // Enviar la respuesta con las palabras
       res.status(200).json(words);
     } catch (error) {
       // Manejo de errores
@@ -69,7 +67,6 @@ app.get("/puzzlewords", async (req, res) => {
       res.status(500).json({ error: 'Error al recuperar las palabras' });
     }
   } else {
-    // Manejo de métodos no permitidos
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
@@ -93,7 +90,7 @@ app.get('/infoprimero', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-
+/*
 app.get('/infosegundo', async (req, res) => {
   try {
     const data = await prisma.info.findUnique({
@@ -111,7 +108,7 @@ app.get('/infosegundo', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-
+*/
 
 app.get('/infosegundo', async (req, res) => {
   try {
