@@ -90,25 +90,6 @@ app.get('/infoprimero', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
-/*
-app.get('/infosegundo', async (req, res) => {
-  try {
-    const data = await prisma.info.findUnique({
-      where: { id: 2 },
-      select: { infografia: true }, 
-    });
-
-    if (!data) {
-      return res.status(404).json({ error: 'No se encontró la información con el ID 2' });
-    }
-
-    res.json(data);
-  } catch (error) {
-    console.error('Error al obtener la infografía:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
-});
-*/
 
 app.get('/infosegundo', async (req, res) => {
   try {
